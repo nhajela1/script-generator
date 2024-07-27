@@ -25,4 +25,26 @@ export async function generateScript(params: {
     }
   
     return response.json();
+}
+
+export async function getGeneratedScripts(userId: string) {
+  if (!userId) return
+
+  const response = await fetch(`/api/scripts?user_id=${userId}`);
+  if (!response.ok) {
+    throw new Error('Error while getting scripts');
   }
+
+  return response.json();
+}
+
+export async function getScriptDetails(scriptId: string) {
+  if (!scriptId) return
+
+  const response = await fetch(`/api/scripts/details?script_id=${scriptId}`);
+  if (!response.ok) {
+    throw new Error('Error while getting script details');
+  }
+
+  return response.json();
+}
