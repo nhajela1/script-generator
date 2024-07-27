@@ -4,7 +4,7 @@ from typing import List
 from dotenv import load_dotenv
 import os
 from openai import OpenAI
-from controllers.scripts import get_user_scripts, add_new_script
+from controllers.scripts import get_script_details, get_user_scripts, add_new_script
 from supabase import create_client, Client
 
 # Load environment variables from .env file
@@ -68,6 +68,14 @@ async def get_scripts(user_id: str):
     try:
         scripts = get_user_scripts(user_id)
         return {"scripts": scripts}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/scripts/details")
+async def get_scripts(script_id: str):
+    try:
+        script_details = get_script_details(script_id)
+        return script_details
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
