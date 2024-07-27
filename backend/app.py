@@ -12,7 +12,7 @@ load_dotenv()
 
 # Get the API key from environment variables
 api_key = os.getenv('OPENAI_API_KEY')
-openai.api_key = api_key
+openai = OpenAI(api_key=api_key)
 
 # Initialize Supabase client
 supabase_url = os.getenv('SUPABASE_URL')
