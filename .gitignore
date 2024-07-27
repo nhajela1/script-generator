@@ -1,0 +1,7 @@
+node_modules
+
+.env
+.env.local
+.vercel
+.pnp.*
+.yarn/install-state.gz
