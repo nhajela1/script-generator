@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from typing import List
 from dotenv import load_dotenv
 import os
-from openai import OpenAI
+import openai
 from controllers.scripts import get_script_details, get_user_scripts, add_new_script
-from supabase import create_client, Client
+from config.supabase import supabase
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,10 +14,6 @@ load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 openai.api_key = api_key
 
-# Initialize Supabase client
-supabase_url = os.getenv('SUPABASE_URL')
-supabase_key = os.getenv('SUPABASE_KEY')
-supabase: Client = create_client(supabase_url, supabase_key)
 
 app = FastAPI()
 
