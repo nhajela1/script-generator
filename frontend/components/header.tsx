@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLab
 import { Menu, Search, CircleUser } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
-import MenuOptions from "./ui/menu-options";
+import MenuOptions from "./menu-options";
 
 export default function Header() {
     return (
