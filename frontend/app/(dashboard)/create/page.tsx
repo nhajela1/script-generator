@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { generateScript } from "../../api/scriptService";
+import { useAuth } from "@/hooks/auth";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Dashboard() {
   const [title, setTitle] = useState("");
@@ -31,6 +33,13 @@ export default function Dashboard() {
   const [generatedScript, setGeneratedScript] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { getCurrentUser } = useAuth();
+
+  const { data: user, } = useQuery({
+      queryKey: ['user'],
+      queryFn: async () => await getCurrentUser(),
+  })
+
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
@@ -40,7 +49,7 @@ export default function Dashboard() {
         genre,
         clipLength,
         specificMoments,
-      });
+      }, user?.id!);
       setGeneratedScript(result.content);
     } catch (error) {
       console.error("Error generating script:", error);

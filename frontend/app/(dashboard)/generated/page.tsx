@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/auth';
 
 export default function GeneratedScriptsPage() {
 
+
     const { getCurrentUser } = useAuth();
 
     const { data: user } = useQuery({
