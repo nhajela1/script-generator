@@ -17,6 +17,7 @@ export async function generateScript(params: {
           params.description,
           params.clipLength,
         ],
+        user_id: "6954a117-aa68-4404-8f06-714edfb4b32f"
       }),
     });
   
@@ -35,7 +36,8 @@ export async function getGeneratedScripts(userId: string) {
     throw new Error('Error while getting scripts');
   }
 
-  return response.json();
+  const data = await response.json();
+  return data.scripts
 }
 
 export async function getScriptDetails(scriptId: string) {
