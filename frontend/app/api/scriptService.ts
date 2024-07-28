@@ -4,7 +4,7 @@ export async function generateScript(params: {
     genre: string;
     clipLength: string;
     specificMoments: string;
-  }) {
+  }, userId: string) {
     const response = await fetch('/api/generate_script', {
       method: 'POST',
       headers: {
@@ -17,7 +17,7 @@ export async function generateScript(params: {
           params.description,
           params.clipLength,
         ],
-        user_id: "6954a117-aa68-4404-8f06-714edfb4b32f"
+        user_id: userId
       }),
     });
   
