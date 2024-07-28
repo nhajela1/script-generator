@@ -89,7 +89,7 @@ export default function RegisterPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Check your email</AlertDialogTitle>
             <AlertDialogDescription>
-              We've sent you an email with a link to confirm your account. Please check your inbox and follow the instructions.
+              We&apos;ve sent you an email with a link to confirm your account. Please check your inbox and follow the instructions.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

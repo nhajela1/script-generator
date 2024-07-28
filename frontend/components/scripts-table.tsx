@@ -53,7 +53,7 @@ export default function ScriptsTable({ scripts, isLoading, error }: ScriptsProps
           <TableBody>
             {
               scripts?.map((script) => (
-                <TableRow className="bg-accent">
+                <TableRow className="bg-accent" key={script.id}>
                   <TableCell>
                     {script.id}
                   </TableCell>
