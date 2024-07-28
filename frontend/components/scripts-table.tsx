@@ -17,12 +17,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "./ui/button"
+import { ScriptDetails } from "@/app/(dashboard)/generated/script-details"
 
 interface Script {
   id: string;
   title: string;
   genre: string;
-  createdAt: string;
+  created_at: string;
 }
 
 interface ScriptsProps {
@@ -62,11 +63,9 @@ export default function ScriptsTable({ scripts, isLoading, error }: ScriptsProps
                       {script.genre}
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{script.createdAt || ""}</TableCell>
+                  <TableCell className="hidden md:table-cell">{new Date(script.created_at).toDateString()}</TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost">
-                      View Details
-                    </Button>
+                    <ScriptDetails scriptId={script.id} />
                   </TableCell>
                 </TableRow>
               ))
