@@ -18,7 +18,20 @@ import {
 } from "@/components/ui/table"
 import { Button } from "./ui/button"
 
-export default function ScriptsTable({ scripts }: { scripts?: any[] }) {
+interface Script {
+  id: string;
+  title: string;
+  genre: string;
+  createdAt: string;
+}
+
+interface ScriptsProps {
+  scripts?: Script[];
+  isLoading: boolean;
+  error: unknown;
+}
+
+export default function ScriptsTable({ scripts, isLoading, error }: ScriptsProps) {
   return (
     <Card>
       <CardHeader className="px-7">
@@ -37,26 +50,27 @@ export default function ScriptsTable({ scripts }: { scripts?: any[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow className="bg-accent">
-              <TableCell>
-                <div className="font-medium">Liam Johnson</div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                  liam@example.com
-                </div>
-              </TableCell>
-              <TableCell className="hidden sm:table-cell">Sale</TableCell>
-              <TableCell className="hidden sm:table-cell">
-                <Badge className="text-xs" variant="secondary">
-                  Fulfilled
-                </Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">2023-06-23</TableCell>
-              <TableCell className="text-right">
-                <Button variant="ghost">
-                  View Details
-                </Button>
-              </TableCell>
-            </TableRow>
+            {
+              scripts?.map((script) => (
+                <TableRow className="bg-accent">
+                  <TableCell>
+                    {script.id}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">{script.title}</TableCell>
+                  <TableCell className="hidden sm:table-cell">
+                    <Badge className="text-xs" variant="secondary">
+                      {script.genre}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">{script.createdAt || ""}</TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="ghost">
+                      View Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </CardContent>
