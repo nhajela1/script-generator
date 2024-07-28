@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List
 from dotenv import load_dotenv
 import os
-import openai
+from openai import OpenAI
 from controllers.scripts import get_script_details, get_user_scripts, add_new_script
 from config.supabase import supabase
 
@@ -24,10 +24,13 @@ class ScriptRequest(BaseModel):
 class ScriptResponse(BaseModel):
     content: str
 
-class UserCredentials(BaseModel):
+class UserLoginCredentials(BaseModel):
     email: str
     password: str
+
+class UserCredentials(UserLoginCredentials):
     name: str
+
 
 class UserResponse(BaseModel):
     user_id: str
@@ -38,7 +41,7 @@ async def generate_script(request: ScriptRequest):
     if len(request.parameters) != 4:
         raise HTTPException(status_code=400, detail="Exactly 4 parameters are required: Genre, Title, Description, Length")
     
-    user_id = request.get('user_id', None)
+    user_id = request.user_id
     genre = request.parameters[0]
     title = request.parameters[1]
 
@@ -46,7 +49,7 @@ async def generate_script(request: ScriptRequest):
         raise HTTPException(status_code=400, detail="User ID is required")
 
     try:
-        completion = openai.ChatCompletion.create(
+        completion = openai.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a content creation tool that will try to produce high-performing scripts for short-form video platforms such as Instagram Reels, TikTok, and YouTube Shorts. The user will provide you with these parameters in the form of a Python string array: Genre, Title, Description, Length (in seconds). You will tailor your script to work well with the presumed audience demographics (based on the aforementioned parameters). Specifically, you will do your best to optimize for the appropriate tone and vocabulary depending on the parameters."},
@@ -93,7 +96,7 @@ async def signup(credentials: UserCredentials):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/login", response_model=UserResponse)
-async def login(credentials: UserCredentials):
+async def login(credentials: UserLoginCredentials):
     try:
         response = supabase.auth.sign_in_with_password({
             "email": credentials.email,
@@ -103,6 +106,7 @@ async def login(credentials: UserCredentials):
         return UserResponse(user_id=user.id, email=user.email)
     except Exception as e:
         raise HTTPException(status_code=401, detail="Invalid credentials")
+
 
 if __name__ == "__main__":
     import uvicorn
